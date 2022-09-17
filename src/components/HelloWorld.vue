@@ -42,7 +42,7 @@
                     <td>{{ datas.name }}</td>
                     <td class="flex">
                       <button class="xbtn" @click="decriseOne(index)">-</button>
-                      {{ datas.quantity }}
+                      <span>{{ datas.quantity }}</span>
                       <button class="xbtn" @click="incriseOne(index)">+</button>
                     </td>
                     <td>{{ datas.price * datas.quantity }}</td>
@@ -57,21 +57,22 @@
             </div>
             <hr />
             <div>
-              <button @click="invoice" class="cal-btn">Calculate</button>
-              <h3>Subtotal : {{ this.subtotal }}</h3>
+              <h3>Subtotal : {{ subtotall }}</h3>
               <div class="flex">
                 <h3>Discoucnt</h3>
-                <h3><input v-model="discount" type="number" /></h3>
+                <h3><input v-model="discountRate" type="number" /></h3>
+                <h4>{{ this.discount }} TAKA (Less)</h4>
               </div>
               <div>
-                <h3>Discounted price : {{ this.discoundedPrice }}</h3>
+                <!-- <h3>Discounted price : {{ this.discoundedPrice }}</h3> -->
               </div>
               <div class="flex">
                 <h3>vat</h3>
-                <h3><input v-model="vat" type="number" /></h3>
+                <h3><input v-model="vatRate" type="number" /></h3>
+                <h4>{{ this.vats }} vat</h4>
               </div>
               <hr />
-              <h3>Totlal: {{ this.totla }}</h3>
+              <h3>Totlal: {{ total }}</h3>
             </div>
           </div>
         </div>
@@ -87,12 +88,11 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      discount: "",
-      vat: "",
-      singleDataPrice: 0,
-      subtotal: 0,
-      discoundedPrice: 0,
-      totla: 0,
+      discount: 0,
+      discountRate: 0,
+      vatRate: 0,
+      vats: 0,
+      subtotals: 0,
     };
   },
   computed: {
@@ -100,6 +100,36 @@ export default {
       myData: "footData",
       orderData: "orderData",
     }),
+    subtotall() {
+      let singleQuantity = 0;
+      let singlePrice = 0;
+      let singleTotal = 0;
+      let subtotal = 0;
+
+      this.orderData.map((o) => {
+        singleQuantity = o.quantity;
+        singlePrice = o.price;
+        singleTotal = singleQuantity * singlePrice;
+        subtotal = subtotal + singleTotal;
+        this.subtotals = subtotal + singleTotal;
+      });
+      return subtotal;
+    },
+    total() {
+      let setToal = 0;
+      setToal = this.subtotals - this.discount + this.vats;
+      return setToal;
+    },
+  },
+  watch: {
+    discountRate(nv) {
+      const dis = parseInt(nv);
+      this.discount = (this.subtotals / 2) * (dis / 100);
+    },
+    vatRate(nv) {
+      const vat = parseInt(nv);
+      this.vats = (this.subtotals / 2) * (vat / 100);
+    },
   },
   methods: {
     ...mapActions({
@@ -108,17 +138,6 @@ export default {
       incriseOne: "incriseOne",
       decriseOne: "decriseOne",
     }),
-    invoice() {
-      this.subtotal = 0;
-      this.orderData.map((o) => {
-        this.singleDataPrice = o.quantity * o.price;
-        this.subtotal = this.subtotal + this.singleDataPrice;
-        this.discoundedPrice =
-          this.subtotal - this.subtotal * (parseInt(this.discount) / 100);
-        this.totla =
-          this.discoundedPrice + this.subtotal * (parseInt(this.vat) / 100);
-      });
-    },
   },
 };
 </script>
@@ -127,6 +146,10 @@ export default {
 <style scoped lang="scss">
 .hello {
   text-align: center;
+}
+.xbtn {
+  width: 10px;
+  background-color: #ffcc00;
 }
 .grid {
   display: grid;

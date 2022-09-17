@@ -83,7 +83,6 @@ export default new Vuex.Store({
   mutations: {
     ADD_ORDER(state, item) {
       let isExsit = state.orderData.find((or) => or.name === item.Food);
-      console.log(isExsit);
       if (isExsit) {
         isExsit.quantity += 1;
       } else {
