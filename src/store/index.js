@@ -77,9 +77,29 @@ export default new Vuex.Store({
         price: 190,
       },
     ],
+    orderData: [],
   },
   getters: {},
-  mutations: {},
-  actions: {},
+  mutations: {
+    ADD_ORDER(state, item) {
+      let isExsit = state.orderData.find((or) => or.name === item.Food);
+      console.log(isExsit);
+      if (isExsit) {
+        isExsit.quantity += 1;
+      } else {
+        let cartItem = {
+          name: item.Food,
+          price: item.price,
+          quantity: 1,
+        };
+        state.orderData.push(cartItem);
+      }
+    },
+  },
+  actions: {
+    addToOrder(context, item) {
+      context.commit("ADD_ORDER", item);
+    },
+  },
   modules: {},
 });
