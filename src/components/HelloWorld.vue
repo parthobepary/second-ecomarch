@@ -46,17 +46,21 @@
             </div>
             <hr />
             <div>
-              <h3>Subtotal</h3>
+              <button @click="invoice" class="cal-btn">Calculate</button>
+              <h3>Subtotal : {{ this.subtotal }}</h3>
               <div class="flex">
                 <h3>Discoucnt</h3>
-                <h3><input type="number" /></h3>
+                <h3><input v-model="discount" type="number" /></h3>
+              </div>
+              <div>
+                <h3>Discounted price : {{ this.discoundedPrice }}</h3>
               </div>
               <div class="flex">
                 <h3>vat</h3>
-                <h3><input type="number" /></h3>
+                <h3><input v-model="vat" type="number" /></h3>
               </div>
               <hr />
-              <h3>Totlal</h3>
+              <h3>Totlal: {{ this.totla }}</h3>
             </div>
           </div>
         </div>
@@ -71,7 +75,14 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
-    return {};
+    return {
+      discount: "",
+      vat: "",
+      singleDataPrice: 0,
+      subtotal: 0,
+      discoundedPrice: 0,
+      totla: 0,
+    };
   },
   computed: {
     ...mapState({
@@ -83,6 +94,17 @@ export default {
     ...mapActions({
       addToOrder: "addToOrder",
     }),
+    invoice() {
+      this.subtotal = 0;
+      this.orderData.map((o) => {
+        this.singleDataPrice = o.quantity * o.price;
+        this.subtotal = this.subtotal + this.singleDataPrice;
+        this.discoundedPrice =
+          this.subtotal - this.subtotal * (parseInt(this.discount) / 100);
+        this.totla =
+          this.discoundedPrice + this.subtotal * (parseInt(this.vat) / 100);
+      });
+    },
   },
 };
 </script>
@@ -105,9 +127,16 @@ export default {
     margin: 0 20px;
   }
 }
+.margin {
+  margin: 60px 0;
+}
 button {
   width: 100%;
   cursor: pointer;
+}
+.cal-btn {
+  width: 200px;
+  margin: 20px 0;
 }
 .table-body {
   padding: 0px 40px;

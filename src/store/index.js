@@ -78,6 +78,7 @@ export default new Vuex.Store({
       },
     ],
     orderData: [],
+    totalorder: [],
   },
   getters: {},
   mutations: {
