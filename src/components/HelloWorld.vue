@@ -61,7 +61,7 @@
               <div class="flex">
                 <h3>Discoucnt</h3>
                 <h3><input v-model="discountRate" type="number" /></h3>
-                <h4>{{ this.discount }} TAKA (Less)</h4>
+                <h4>{{ caldisciunt }} TAKA (Less)</h4>
               </div>
               <div>
                 <!-- <h3>Discounted price : {{ this.discoundedPrice }}</h3> -->
@@ -69,7 +69,7 @@
               <div class="flex">
                 <h3>vat</h3>
                 <h3><input v-model="vatRate" type="number" /></h3>
-                <h4>{{ this.vats }} vat</h4>
+                <h4>{{ calvat }} vat</h4>
               </div>
               <hr />
               <h3>Totlal: {{ total }}</h3>
@@ -93,6 +93,7 @@ export default {
       vatRate: 0,
       vats: 0,
       subtotals: 0,
+      discoutedprice: 0,
     };
   },
   computed: {
@@ -111,24 +112,30 @@ export default {
         singlePrice = o.price;
         singleTotal = singleQuantity * singlePrice;
         subtotal = subtotal + singleTotal;
-        this.subtotals = subtotal + singleTotal;
+        this.subtotals = subtotal;
       });
       return subtotal;
     },
+    caldisciunt() {
+      let takDiscount = this.subtotals * (this.discount / 100);
+
+      return takDiscount;
+    },
+    calvat() {
+      let takDiscount = (this.subtotals - this.caldisciunt) * (this.vats / 100);
+      return takDiscount;
+    },
     total() {
-      let setToal = 0;
-      setToal = this.subtotals - this.discount + this.vats;
+      let setToal = this.calvat + (this.subtotals - this.caldisciunt);
       return setToal;
     },
   },
   watch: {
     discountRate(nv) {
-      const dis = parseInt(nv);
-      this.discount = (this.subtotals / 2) * (dis / 100);
+      this.discount = parseInt(nv);
     },
     vatRate(nv) {
-      const vat = parseInt(nv);
-      this.vats = (this.subtotals / 2) * (vat / 100);
+      this.vats = parseInt(nv);
     },
   },
   methods: {
