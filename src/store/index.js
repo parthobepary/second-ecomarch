@@ -102,10 +102,15 @@ export default new Vuex.Store({
       }
     },
     INCISE_ORDER(state, id) {
-      console.log((state.orderData[id].quantity += 1));
+      state.orderData[id].quantity += 1;
     },
     DECRISE_ORDER(state, id) {
-      console.log((state.orderData[id].quantity -= 1));
+      if (state.orderData[id].quantity <= 0) {
+        alert("nagative number not allaow");
+        return;
+      } else {
+        state.orderData[id].quantity -= 1;
+      }
     },
   },
   actions: {

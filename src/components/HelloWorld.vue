@@ -41,9 +41,9 @@
                   <tr v-for="(datas, index) in orderData" :key="index">
                     <td>{{ datas.name }}</td>
                     <td class="flex">
-                      <button @click="decriseOne(index)">-</button>
+                      <button class="xbtn" @click="decriseOne(index)">-</button>
                       {{ datas.quantity }}
-                      <button @click="incriseOne(index)">+</button>
+                      <button class="xbtn" @click="incriseOne(index)">+</button>
                     </td>
                     <td>{{ datas.price * datas.quantity }}</td>
                     <td>
@@ -145,6 +145,9 @@ export default {
   background-color: red;
   color: white;
   font-weight: bold;
+}
+.xbtn {
+  width: 60px;
 }
 .margin {
   margin: 60px 0;
