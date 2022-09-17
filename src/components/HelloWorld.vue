@@ -25,25 +25,39 @@
       <div>
         <div>
           <h2>This is order list</h2>
-          <div class="table-body">
-            <table class="GeneratedTable">
-              <thead>
-                <tr>
-                  <th>Quantity</th>
-                  <th>Food name</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(datas, index) in orderData" :key="index">
-                  <td>{{ datas.quantity }}</td>
-                  <td>
-                    <button @click="addToOrder(datas)">{{ datas.name }}</button>
-                  </td>
-                  <td>{{ datas.price }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div>
+            <div class="table-body">
+              <table class="GeneratedTable">
+                <thead>
+                  <tr>
+                    <th>Food name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(datas, index) in orderData" :key="index">
+                    <td>{{ datas.name }}</td>
+                    <td>{{ datas.quantity }}</td>
+                    <td>{{ datas.price * datas.quantity }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr />
+            <div>
+              <h3>Subtotal</h3>
+              <div class="flex">
+                <h3>Discoucnt</h3>
+                <h3><input type="number" /></h3>
+              </div>
+              <div class="flex">
+                <h3>vat</h3>
+                <h3><input type="number" /></h3>
+              </div>
+              <hr />
+              <h3>Totlal</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -81,6 +95,15 @@ export default {
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+}
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 30px;
+  h3 {
+    margin: 0 20px;
+  }
 }
 button {
   width: 100%;
