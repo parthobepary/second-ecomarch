@@ -78,7 +78,6 @@ export default new Vuex.Store({
       },
     ],
     orderData: [],
-    totalorder: [],
   },
   getters: {},
   mutations: {
@@ -96,10 +95,31 @@ export default new Vuex.Store({
         state.orderData.push(cartItem);
       }
     },
+    DELETE_ORDER(state, item) {
+      let yes = window.confirm("Are youe sure");
+      if (yes) {
+        state.orderData.splice(item, 1);
+      }
+    },
+    INCISE_ORDER(state, id) {
+      console.log((state.orderData[id].quantity += 1));
+    },
+    DECRISE_ORDER(state, id) {
+      console.log((state.orderData[id].quantity -= 1));
+    },
   },
   actions: {
     addToOrder(context, item) {
       context.commit("ADD_ORDER", item);
+    },
+    deleteOne(context, item) {
+      context.commit("DELETE_ORDER", item);
+    },
+    incriseOne(context, id) {
+      context.commit("INCISE_ORDER", id);
+    },
+    decriseOne(context, id) {
+      context.commit("DECRISE_ORDER", id);
     },
   },
   modules: {},

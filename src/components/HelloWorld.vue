@@ -33,13 +33,24 @@
                     <th>Food name</th>
                     <th>Quantity</th>
                     <th>Price</th>
+                    <th>action</th>
                   </tr>
                 </thead>
+                <!-- //delete one -->
                 <tbody>
                   <tr v-for="(datas, index) in orderData" :key="index">
                     <td>{{ datas.name }}</td>
-                    <td>{{ datas.quantity }}</td>
+                    <td class="flex">
+                      <button @click="decriseOne(index)">-</button>
+                      {{ datas.quantity }}
+                      <button @click="incriseOne(index)">+</button>
+                    </td>
                     <td>{{ datas.price * datas.quantity }}</td>
+                    <td>
+                      <button @click="deleteOne(index)" class="crossbtn">
+                        X
+                      </button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -93,6 +104,9 @@ export default {
   methods: {
     ...mapActions({
       addToOrder: "addToOrder",
+      deleteOne: "deleteOne",
+      incriseOne: "incriseOne",
+      decriseOne: "decriseOne",
     }),
     invoice() {
       this.subtotal = 0;
@@ -126,6 +140,11 @@ export default {
   h3 {
     margin: 0 20px;
   }
+}
+.crossbtn {
+  background-color: red;
+  color: white;
+  font-weight: bold;
 }
 .margin {
   margin: 60px 0;
