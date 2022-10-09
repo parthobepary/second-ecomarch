@@ -104,7 +104,7 @@ export default new Vuex.Store({
       state.orderData[id].quantity += 1;
     },
     DECRISE_ORDER(state, id) {
-      if (state.orderData[id].quantity <= 0) {
+      if (state.orderData[id].quantity == 0) {
         alert("nagative number not allaow");
         return;
       } else {

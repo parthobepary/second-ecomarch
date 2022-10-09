@@ -2,12 +2,20 @@
   <div id="app">
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About {{ orderData.length }}</router-link>
     </nav>
     <router-view />
   </div>
 </template>
+<script>
+import { mapState } from "vuex";
 
+export default {
+  computed: {
+    ...mapState(["orderData"]),
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
